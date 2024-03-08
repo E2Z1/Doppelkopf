@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Doppelkopf</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" type="text/css">
+    <link rel="icon" href="/cards/3-4.svg" type="image/x-icon">
+  </head>
+  <body onload="updateNavbar()">
+    <div class="navbar">
+      <nav>
+         <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/play/">Play</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="login">
+      <div id="inputfield">
+        <input id="name" type="text" placeholder="Username"/>
+        <input id="password" type="password" placeholder="Password"/>
+      </div>
+      <div>
+        <button id="login-button" onclick="logIn(document.getElementById('name').value, document.getElementById('password').value)">Log in</button>
+      </div>
+      <a id="switchLogSign" href="/signup/">Create Account</a>
+    </div>
+    <div id="errorContainer" class="error-container">Error: </div>
+    <script src="/app.js"></script>
+  </body>
+</html>
