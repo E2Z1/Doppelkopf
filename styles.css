@@ -183,7 +183,8 @@ button {
 }
 button:active {
   position: relative;
-  top: 1px;
+  transform: translateY(1px);
+  border-bottom: 1px solid #929292;
 }
 
 #player2 {
@@ -268,4 +269,12 @@ button:active {
   height: 20vh !important;
   right: 25vh;
   cursor: auto !important;
+}
+
+.closeX {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 12px;
+  font-size: 26px;
 }

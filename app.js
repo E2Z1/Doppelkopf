@@ -1,5 +1,7 @@
 let game;
-const server = "http://127.0.0.1:54321"
+var getGameInterval;
+//const server = "http://127.0.0.1:54321" for testing
+const server = "https://qzaelkvxszcrmwloayyq.supabase.co/"
 function joinGame() {
     if (localStorage.getItem("game")) {showError("already in game; rejoining game..."); startGame(); return}
     if (document.getElementById("game_id").value.length != 5) {showError("invalid game id (not 5 characters)"); return}
@@ -38,6 +40,13 @@ function showError(error) {
     }, 3000);
 }
 
+function isInGame(json) {
+    for (let i = 0; i < Object.keys(json.players).length; i++) {
+        if (json.players[i].name == localStorage.getItem("username")) return true;
+    }
+    return false;
+}
+
 async function getGame() {
     fetch(server+"/functions/v1/getGame", {
         method: "POST",
@@ -54,9 +63,14 @@ async function getGame() {
             if (json.success) {
                 if (localStorage.getItem("game") != JSON.stringify(json)) {
                     console.log(json)
-                    game = json;
-                    localStorage.setItem("game", JSON.stringify(game));
-                    renderCards()
+                    if (isInGame(json)) {
+                        game = json;
+                        localStorage.setItem("game", JSON.stringify(game));
+                        renderCards()
+                    } else {
+                        clearInterval(getGameInterval)
+                        getResults()
+                    }
                 }
                 if (!json.success) showError(json.message);
             } else showError(json.message);
@@ -122,11 +136,11 @@ async function getResults() {
 }
 
 function renderResult(result) {
-    const rePlayers = result.re.players.join(' & ');
-    const contraPlayers = result.contra.players.join(' & ');
+    const rePlayers = result[1].players.join(' & ');
+    const contraPlayers = result[0].players.join(' & ');
 
     let reScore = 0;
-    const scoreRows = Object.entries(result.re.points).map(([key, value]) => {
+    const scoreRows = Object.entries(result[1].points).map(([key, value]) => {
         reScore += value;
         return `<tr><th>${key}</th><td>${value}</td><td>${-value}</td></tr>`;
     });
@@ -137,11 +151,12 @@ function renderResult(result) {
         <table>
           <tr><th></th><th>Re</th><th>Kontra</th></tr>
           <tr><th></th><td>${rePlayers}</td><td>${contraPlayers}</td></tr>
-          <tr><th>Augen</th><td>${result.re.eyes}</td><td>${240-result.re.eyes}</td></tr>
+          <tr><th>Augen</th><td>${result[1].eyes}</td><td>${240-result[1].eyes}</td></tr>
           ${scoreRows.join('')}
           <tr></tr>
           ${totalReScore}
-        </table>`;
+        </table>
+        <a class="closeX" onclick="leaveGame()">X</a>`;
 
     var result_div = document.getElementsByClassName("result-container")[0]
     result_div.innerHTML = scoreTable
@@ -229,14 +244,13 @@ function placeCard(card) {
             console.log(json);
         });
 }
-var getGameInterval;
 function startGame() {
     if (document.getElementsByClassName("select-game")[0]) document.getElementsByClassName("select-game")[0].remove();
     if (document.getElementsByClassName("navbar")[0]) document.getElementsByClassName("navbar")[0].remove();
     const gameContainer = document.getElementsByClassName("game-container")[0];
     gameContainer.style.width = '100%';
     gameContainer.style.height = '100%';
-    //var getGameInterval = setInterval(getGame, 1000);
+    getGameInterval = setInterval(getGame, 1000);
     renderCards()
 }
 
@@ -244,6 +258,8 @@ function leaveGame() {
     localStorage.removeItem("game")
     localStorage.removeItem("indexInGame")
     clearInterval(getGameInterval)
+    document.getElementsByClassName("result-container")[0].classList.remove("show") 
+    window.location.href = "/Doppelkopf/play"
 }
 
 function appendCardToTrick(id) {
@@ -251,3 +267,4 @@ function appendCardToTrick(id) {
     const cardsLength = cardStack.children.length
     cardStack.innerHTML += '<img class="card" src="/Doppelkopf/cards/back.svg" style="transform: translate(-'+cardsLength/1.5+'px, -'+cardsLength/1.5+'px)">';
 }
+
