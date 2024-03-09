@@ -1,8 +1,9 @@
 let game;
+const server = "http://127.0.0.1:54321"
 function joinGame() {
     if (localStorage.getItem("game")) {showError("already in game; rejoining game..."); startGame(); return}
     if (document.getElementById("game_id").value.length != 5) {showError("invalid game id (not 5 characters)"); return}
-    fetch("http://127.0.0.1:54321/functions/v1/join-game", {
+    fetch(server+"/functions/v1/join-game", {
         method: "POST",
         body: JSON.stringify({
             game_id: document.getElementById("game_id").value.toLowerCase(),
@@ -38,7 +39,7 @@ function showError(error) {
 }
 
 async function getGame() {
-    fetch("http://127.0.0.1:54321/functions/v1/getGame", {
+    fetch(server+"/functions/v1/getGame", {
         method: "POST",
         body: JSON.stringify({
             game_id: JSON.parse(localStorage.getItem("game")).game_id.toLowerCase(),
@@ -64,7 +65,7 @@ async function getGame() {
 
 async function signUp(name, password) {
     if (name != "" && password != "") {
-        fetch("http://127.0.0.1:54321/functions/v1/signUp", {
+        fetch(server+"/functions/v1/signUp", {
             method: "POST",
             body: JSON.stringify({
                 name: name, pw: password
@@ -78,14 +79,14 @@ async function signUp(name, password) {
                 if (json.success) {
                     localStorage.setItem("session_id", json.session_id)
                     localStorage.setItem("username", name)
-                    window.location.href = "/"
+                    window.location.href = "/Doppelkopf/"
                 } else showError(json.message)
             });
     }
 }
 
 async function logIn(name, password) {
-    fetch("http://127.0.0.1:54321/functions/v1/logIn", {
+    fetch(server+"/functions/v1/logIn", {
         method: "POST",
         body: JSON.stringify({
             name: name, pw: password
@@ -99,7 +100,7 @@ async function logIn(name, password) {
             if (json.success) {
                 localStorage.setItem("session_id", json.session_id)
                 localStorage.setItem("username", name)
-                window.location.href = "/"
+                window.location.href = "/Doppelkopf/"
             } else showError(json.message)
         });
 }
@@ -116,8 +117,8 @@ function updateNavbar() {
     if (localStorage.getItem("session_id")) {
         document.getElementsByClassName("navbar")[0].children[0].children[0].innerHTML += "<li class='loggedOutIn'><a onclick='logOut()' href=''>Log out ("+localStorage.getItem("username")+")</a></li>"
     } else {
-        document.getElementsByClassName("navbar")[0].children[0].children[0].innerHTML += "<li class='loggedOutIn'><a href='/login/'>Log in</a></li>\n"
-        document.getElementsByClassName("navbar")[0].children[0].children[0].innerHTML += "<li class='loggedOutIn'><a href='/signup/'>Sign up</a></li>"
+        document.getElementsByClassName("navbar")[0].children[0].children[0].innerHTML += "<li class='loggedOutIn'><a href='/Doppelkopf/login/'>Log in</a></li>\n"
+        document.getElementsByClassName("navbar")[0].children[0].children[0].innerHTML += "<li class='loggedOutIn'><a href='/Doppelkopf/signup/'>Sign up</a></li>"
     }
 }
 
@@ -135,7 +136,7 @@ function renderCards() {
         if (i == localStorage.getItem("indexInGame")) {
             userCards = game.players[i].cards;
             for (let j = 0; j<Object.keys(userCards).length;j++) {
-                html += '<img class="card" onclick="placeCard('+j+')" src="/cards/'+userCards[j][0]+'-'+userCards[j][1]+'.svg" style="--i:'+(j-(Math.ceil(Object.keys(userCards).length/2)-1))+'">'
+                html += '<img class="card" onclick="placeCard('+j+')" src="/Doppelkopf/cards/'+userCards[j][0]+'-'+userCards[j][1]+'.svg" style="--i:'+(j-(Math.ceil(Object.keys(userCards).length/2)-1))+'">'
             }
             html += '<div class="tricks"></div>'
             document.getElementById("player0").innerHTML = html;
@@ -143,7 +144,7 @@ function renderCards() {
         } else {
             userCards = game.players[i].cards;
             for (let j = 0; j<userCards;j++) {
-                html += '<img class="card" src="/cards/back.svg" style="--i:'+(j-(Math.ceil(userCards/2)-1))+'">'
+                html += '<img class="card" src="/Doppelkopf/cards/back.svg" style="--i:'+(j-(Math.ceil(userCards/2)-1))+'">'
             }
             html += '<p id="player-name">'+game.players[i].name+'</p>'
             html += '<div class="tricks"></div>'
@@ -162,7 +163,7 @@ function isValid(data, playerId) {
     return true;
 }
 function placeCard(card) {
-    fetch("http://127.0.0.1:54321/functions/v1/placeCard", {
+    fetch(server+"/functions/v1/placeCard", {
         method: "POST",
         body: JSON.stringify({
             game_id: JSON.parse(localStorage.getItem("game")).game_id.toLowerCase(),
@@ -183,24 +184,25 @@ function placeCard(card) {
             console.log(json);
         });
 }
-
+var getGameInterval;
 function startGame() {
     if (document.getElementsByClassName("select-game")[0]) document.getElementsByClassName("select-game")[0].remove();
     if (document.getElementsByClassName("navbar")[0]) document.getElementsByClassName("navbar")[0].remove();
     const gameContainer = document.getElementsByClassName("game-container")[0];
     gameContainer.style.width = '100%';
     gameContainer.style.height = '100%';
-    //setInterval(getGame, 1000);
+    //var getGameInterval = setInterval(getGame, 1000);
     renderCards()
 }
 
 function leaveGame() {
     localStorage.removeItem("game")
     localStorage.removeItem("indexInGame")
+    clearInterval(getGameInterval)
 }
 
 function appendCardToTrick(id) {
     const cardStack = document.getElementById(id).getElementsByClassName("tricks")[0];
     const cardsLength = cardStack.children.length
-    cardStack.innerHTML += '<img class="card" src="/cards/back.svg" style="transform: translate(-'+cardsLength/1.5+'px, -'+cardsLength/1.5+'px)">';
+    cardStack.innerHTML += '<img class="card" src="/Doppelkopf/cards/back.svg" style="transform: translate(-'+cardsLength/1.5+'px, -'+cardsLength/1.5+'px)">';
 }
