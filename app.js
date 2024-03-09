@@ -105,6 +105,51 @@ async function logIn(name, password) {
         });
 }
 
+async function getResults() {
+    fetch(server+"/functions/v1/getResults", {
+        method: "POST",
+        body: JSON.stringify({
+            game_id: JSON.parse(localStorage.getItem("game")).game_id.toLowerCase()
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
+        .then((response) => response.json())
+        .then((json) => {
+            renderResult(json)
+    });
+}
+
+function renderResult(result) {
+    const rePlayers = result.re.players.join(' & ');
+    const contraPlayers = result.contra.players.join(' & ');
+
+    let reScore = 0;
+    const scoreRows = Object.entries(result.re.points).map(([key, value]) => {
+        reScore += value;
+        return `<tr><th>${key}</th><td>${value}</td><td>${-value}</td></tr>`;
+    });
+
+    const totalReScore = `<tr><th>Summe</th><td>${reScore}</td><td>${-reScore}</td></tr>`;
+
+    const scoreTable = `
+        <table>
+          <tr><th></th><th>Re</th><th>Kontra</th></tr>
+          <tr><th></th><td>${rePlayers}</td><td>${contraPlayers}</td></tr>
+          <tr><th>Augen</th><td>${result.re.eyes}</td><td>${240-result.re.eyes}</td></tr>
+          ${scoreRows.join('')}
+          <tr></tr>
+          ${totalReScore}
+        </table>`;
+
+    var result_div = document.getElementsByClassName("result-container")[0]
+    result_div.innerHTML = scoreTable
+    result_div.classList.add("show")
+}
+
+
+
 function logOut() {
     localStorage.removeItem("session_id")
     localStorage.removeItem("username")

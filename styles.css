@@ -22,7 +22,14 @@ nav ul {
   margin: 0;
 }
 
+#credits, #credits a {
+  color: #e5e5e5;
+  font-size: 25px;
+}
 
+#credits {
+  margin: 10px;
+}
 
 nav {
   float: left;
@@ -65,6 +72,32 @@ nav a:active {
   top: 30px;
 }
 
+.result-container {
+  display: none;
+  background: linear-gradient(180deg, #f1f1f1 0%, #ffffff 100%);
+  border-radius: 10px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 1px 2px 0 #000000;
+}
+
+.result-container table {
+  border-spacing: 20px;
+  margin: 40px;
+}
+
+.result-container td {
+  text-align: center;
+}
+
+.result-container.show {
+  display: block;
+}
 
 
 .select-game {
