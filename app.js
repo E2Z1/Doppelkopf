@@ -188,7 +188,7 @@ function renderCards() {
     const trick_cards = Object.keys(game.current_trick).length - 1;
     const starter = game.current_trick.start;
     for (let i = starter; i < trick_cards+starter;i++) {
-        html += '<img class="trickCard" src="/cards/'+game.current_trick[i%4][0].toString()+'-'+game.current_trick[i%4][1].toString()+'.svg" style="--i:'+(4-localStorage.getItem("indexInGame")+i)%4+'">'
+        html += '<img class="trickCard" src="/Doppelkopf/cards/'+game.current_trick[i%4][0].toString()+'-'+game.current_trick[i%4][1].toString()+'.svg" style="--i:'+(4-localStorage.getItem("indexInGame")+i)%4+'">'
     }
     document.getElementById("current_trick").innerHTML = html;
     html = '';
