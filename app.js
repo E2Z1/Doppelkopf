@@ -1,7 +1,7 @@
 let game;
 var getGameInterval;
 //const server = "http://127.0.0.1:54321" for testing
-const server = "https://qzaelkvxszcrmwloayyq.supabase.co/"
+const server = "https://qzaelkvxszcrmwloayyq.supabase.co"
 function joinGame() {
     if (localStorage.getItem("game")) {showError("already in game; rejoining game..."); startGame(); return}
     if (document.getElementById("game_id").value.length != 5) {showError("invalid game id (not 5 characters)"); return}
