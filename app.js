@@ -237,9 +237,14 @@ function placeCard(card) {
         .then((response) => response.json())
         .then((json) => {
             if (json.success) {
-                game = json;
-                localStorage.setItem("game", JSON.stringify(game));
-                renderCards()
+                if (isInGame(json)) {
+                    game = json;
+                    localStorage.setItem("game", JSON.stringify(game));
+                    renderCards()
+                } else {
+                    clearInterval(getGameInterval)
+                    getResults()
+                }
             } else showError(json.message)
             console.log(json);
         });
