@@ -8,15 +8,7 @@
     <link rel="stylesheet" href="/Doppelkopf/styles.css" type="text/css">
     <link rel="icon" href="/Doppelkopf/cards/3-4.svg" type="image/x-icon">
   </head>
-  <body onload="updateNavbar()">
-    <div class="navbar">
-      <nav>
-         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/play/">Play</a></li>
-        </ul>
-      </nav>
-    </div>
+  <body>
     <div class="game-container">
       <div id="current_trick">
         <img class="trickCard" src="/Doppelkopf/cards/0-2.svg" style="--i:0">
@@ -40,6 +32,7 @@
         <p id="player-name">Loremsssss</p>
       </div>
       <div id="player1" class="hand">
+        <div class="tricks"><img class="card" src="/Doppelkopf/cards/back.svg"></div>
         <img class="card" src="/Doppelkopf/cards/back.svg" style="--i:-5">
         <img class="card" src="/Doppelkopf/cards/back.svg" style="--i:-4">
         <img class="card" src="/Doppelkopf/cards/back.svg" style="--i:-3">
@@ -53,7 +46,6 @@
         <img class="card" src="/Doppelkopf/cards/back.svg" style="--i:5">
         <img class="card" src="/Doppelkopf/cards/back.svg" style="--i:6">
         <p id="player-name">Loremsssss</p>
-        <div class="tricks"><img class="card" src="/Doppelkopf/cards/back.svg"></div>
       </div>
       <div id="player3" class="hand">
         <img class="card" src="/Doppelkopf/cards/back.svg" style="--i:-5">
@@ -71,19 +63,27 @@
         <p id="player-name">Loremsssss</p>
       </div>
       <div id="player0" class="hand">
+        <div class="tricks"><img class="card" src="/Doppelkopf/cards/back.svg"></div>
         <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:-5">
         <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:-4">
         <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:-3">
         <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:-2">
-        <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:-1">
-        <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:0">
-        <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:1">
-        <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:2">
+        <img class="card" src="/Doppelkopf/cards/0-5.svg" style="--i:-1">
+        <img class="card" src="/Doppelkopf/cards/0-4.svg" style="--i:0">
+        <img class="card" src="/Doppelkopf/cards/0-3.svg" style="--i:1">
+        <img class="card" src="/Doppelkopf/cards/0-1.svg" style="--i:2">
         <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:3">
         <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:4">
-        <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:5">
-        <img class="card" src="/Doppelkopf/cards/0-2.svg" style="--i:6">
-        <div class="tricks"></div>
+        <img class="card" src="/Doppelkopf/cards/0-3.svg" style="--i:5">
+        <img class="card" src="/Doppelkopf/cards/0-5.svg" style="--i:6">
+        <a id="announcement">Re</a>
+      </div>
+      <div id="call">
+        <a>Gesund</a>
+        <a>Solo</a>
+        <a>Armut</a>
+        <a>Hochzeit</a>
+        <a>Schmeissen</a>
       </div>
     </div>
     <div id="errorContainer" class="error-container">Error: </div>

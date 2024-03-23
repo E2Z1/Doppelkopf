@@ -216,22 +216,20 @@ button:active {
 
 .card {
   position: absolute;
-  transition: 0.5s;
   height: 20vh;
-  transform: rotate(calc(var(--i)*6deg)) translate(calc(var(--i)*2.5vh), -50px);
+  transform: rotate(calc(var(--i)*6deg)) translate(calc(var(--i)*2.5vh), -5vh);
   user-select: none;
 }
 
 #current_trick {
   position: fixed;
   bottom: 72%;
-  left: 50%;
+  left: 45%;
 }
 
 .trickCard {
   position: absolute;
   height: 30vh;
-  transition: 0.1s;
   transform: rotate(calc(var(--i)*90deg + 180deg)) translate(-10%, -10%);
   user-select: none;
 }
@@ -239,20 +237,24 @@ button:active {
 #player0 .card {
   cursor: pointer;
   height: 40vh;
+  transition: transform 0.5s;
 }
 
 #player0 .card:hover {
-  transform: rotate(calc(var(--i)*6deg)) translate(calc(var(--i)*2.5vh), -150px);
+  transform: rotate(calc(var(--i)*6deg)) translate(calc(var(--i)*2.5vh), -17vh);
+
 }
 
 #player-name {
   position: fixed;
   color: white;
+  font-size: 2vh;
   top: 6vh;
-  padding: 10px;
+  padding: 1vh;
   border-radius: 4px;
   background: linear-gradient(45deg, #4f4e4e 0%, #000000 100%);
   margin: auto;
+  user-select: none;
 }
 
 .their-turn #player-name {
@@ -277,4 +279,42 @@ button:active {
   top: 5px;
   right: 12px;
   font-size: 26px;
+}
+
+#call {
+  background: linear-gradient(180deg, #f1f1f1 0%, #ffffff 100%);
+  border-radius: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 1px 2px 0 #000000;
+  text-align: center;
+  overflow: hidden;
+}
+#call a {
+  cursor: pointer;
+  font-size: 30px;
+  display: block;
+  background: linear-gradient(45deg, #4f4e4e 0%, #000000 100%);
+  border-radius: 5px;
+  color: #f1f1f1;
+  text-decoration: none;
+  padding: 5px;
+  margin: 7px;
+  user-select: none;
+}
+
+#announcement {
+  right: 17vh;
+  position: absolute;
+  cursor: pointer;
+  font-size: 30px;
+  background: linear-gradient(45deg, #4f4e4e 0%, #000000 100%);
+  border-radius: 10px;
+  color: #f1f1f1;
+  text-decoration: none;
+  padding: 8px;
+  user-select: none;
+  border: 4px solid #f1f1f1;
 }

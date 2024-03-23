@@ -194,20 +194,20 @@ function renderCards() {
     html = '';
     for (let i = 0; i<Object.keys(game.players).length;i++) {
         if (i == localStorage.getItem("indexInGame")) {
+            html += '<div class="tricks"></div>'
             userCards = game.players[i].cards;
             for (let j = 0; j<Object.keys(userCards).length;j++) {
                 html += '<img class="card" onclick="placeCard('+j+')" src="/Doppelkopf/cards/'+userCards[j][0]+'-'+userCards[j][1]+'.svg" style="--i:'+(j-(Math.ceil(Object.keys(userCards).length/2)-1))+'">'
             }
-            html += '<div class="tricks"></div>'
             document.getElementById("player0").innerHTML = html;
             html = '';
         } else {
+            html += '<div class="tricks"></div>'
             userCards = game.players[i].cards;
             for (let j = 0; j<userCards;j++) {
                 html += '<img class="card" src="/Doppelkopf/cards/back.svg" style="--i:'+(j-(Math.ceil(userCards/2)-1))+'">'
             }
             html += '<p id="player-name">'+game.players[i].name+'</p>'
-            html += '<div class="tricks"></div>'
             document.getElementById("player"+(4-localStorage.getItem("indexInGame")+i)%4).innerHTML = html;
             html = '';
         }
